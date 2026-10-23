@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>على أهبة الاستعداد — وثائقي أمني ميداني</title>
+<meta name="description" content="المقترح التحريري والإنتاجي للموسم الأول — 14 حلقة × 60 دقيقة">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700;800;900&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --mid:#070B14;--card:rgba(16,26,46,.75);--gold:#D4AF37;--gold2:#E5B869;--blue:#3B82F6;
+  --tx:#fff;--mut:#BAC5DB;--ok:#34D399;--bad:#F87171;--line:rgba(212,175,55,.2);
+  --fh:'Cairo','Tajawal',sans-serif;--fb:'Tajawal','Cairo',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{font-size:clamp(13.5px,calc(.42vw + .75vh),20px);background:var(--mid)}
+html,body{width:100%;height:100%;overflow:hidden}
+body{font-family:var(--fb);font-size:1rem;line-height:1.7;color:var(--tx);background:var(--mid);user-select:none;-webkit-user-select:none;-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+a{color:inherit;text-decoration:none}
+svg{display:block}
+img{display:block}
+
+#deck{position:fixed;inset:0;overflow:hidden}
+.slide{position:absolute;inset:0;opacity:0;visibility:hidden;transform:scale(1.025);transition:opacity .9s ease,transform 1.1s cubic-bezier(.2,.7,.2,1),visibility 0s linear .9s;background:var(--mid)}
+.slide.active{opacity:1;visibility:visible;transform:none;transition-delay:0s;z-index:2}
+.inner{position:absolute;inset:0;padding:3.2rem 4.2rem 6.2rem;display:flex;flex-direction:column;gap:1.8rem;overflow-y:auto;overflow-x:hidden;scrollbar-width:none}
+.inner::-webkit-scrollbar{display:none}
+.bg{position:absolute;inset:0;z-index:0;background:
+  radial-gradient(70% 60% at 100% 0%,rgba(59,130,246,.16),transparent 65%),
+  radial-gradient(60% 55% at 0% 100%,rgba(212,175,55,.11),transparent 65%),var(--mid)}
+.inner{z-index:1}
+
+.rv{opacity:0;transform:translateY(22px);transition:opacity .8s ease,transform .9s cubic-bezier(.2,.7,.2,1)}
+.slide.active .rv{opacity:1;transform:none;transition-delay:calc(var(--i,0)*90ms + 300ms)}
+.slide:not(.active) .rv{transition:none}
+.slide.settled .rv{transition-delay:0s!important}
+
+/* header */
+.sh{display:flex;align-items:flex-end;justify-content:space-between;gap:2rem;flex:none}
+.sh h2{font-family:var(--fh);font-weight:800;font-size:2.5rem;line-height:1.35;color:#fff;position:relative;padding-top:1.1rem}
+.sh h2::before{content:"";position:absolute;top:0;right:0;width:4rem;height:4px;border-radius:4px;background:var(--gold)}
+.sh p{font-size:1.1rem;color:var(--mut);max-width:34rem;text-align:left}
+.sh .no{font-family:var(--fh);font-weight:900;font-size:4rem;line-height:1;color:rgba(212,175,55,.2);direction:ltr}
+
+.card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:1.4rem 1.7rem;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);position:relative}
+.card.gold{border-color:rgba(212,175,55,.5);background:linear-gradient(135deg,rgba(212,175,55,.16),rgba(16,26,46,.78))}
+.card.blue{border-color:rgba(59,130,246,.45);background:linear-gradient(135deg,rgba(59,130,246,.18),rgba(16,26,46,.78))}
+.card h3{font-family:var(--fh);font-weight:700;font-size:1.4rem;line-height:1.4;color:#fff}
+.card p,.txt{font-size:1.1rem;line-height:1.8;color:#E3E9F5}
+.ib{flex:none;width:3.4rem;height:3.4rem;border-radius:16px;display:grid;place-items:center;color:var(--gold2);background:linear-gradient(145deg,rgba(212,175,55,.2),rgba(59,130,246,.14));border:1px solid rgba(229,184,105,.4);box-shadow:0 0 28px -6px rgba(212,175,55,.5)}
+.ib svg{width:54%;height:54%}
+.ib.lg{width:4.4rem;height:4.4rem;border-radius:20px}
+.ib.sm{width:2.6rem;height:2.6rem;border-radius:13px}
+.ib.blue{color:#8DB8FF;border-color:rgba(59,130,246,.5);background:linear-gradient(145deg,rgba(59,130,246,.28),rgba(59,130,246,.08));box-shadow:0 0 28px -6px rgba(59,130,246,.6)}
+.ib.bad{color:var(--bad);border-color:rgba(248,113,113,.5);background:linear-gradient(145deg,rgba(248,113,113,.22),rgba(248,113,113,.05));box-shadow:0 0 24px -6px rgba(248,113,113,.5)}
+.ib.ok{color:var(--ok);border-color:rgba(52,211,153,.5);background:linear-gradient(145deg,rgba(52,211,153,.2),rgba(52,211,153,.05));box-shadow:0 0 24px -6px rgba(52,211,153,.5)}
+.photo{position:relative;border-radius:26px;overflow:hidden;border:1px solid rgba(212,175,55,.3);box-shadow:0 30px 80px -30px #000}
+.photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.photo::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,rgba(7,11,20,.55))}
+
+/* ---------- nav ---------- */
+.prog{position:fixed;top:0;right:0;height:4px;z-index:60;background:var(--gold);transition:width .9s ease}
+.nav{position:fixed;left:50%;bottom:1.4rem;transform:translateX(-50%);z-index:60;display:flex;align-items:center;gap:.3rem;padding:.4rem .6rem;border-radius:99px;background:rgba(16,26,46,.85);border:1px solid rgba(212,175,55,.3);backdrop-filter:blur(14px);box-shadow:0 14px 50px -10px #000}
+.nav button{height:2.7rem;min-width:2.7rem;padding:0 1rem;border-radius:99px;display:inline-flex;align-items:center;justify-content:center;gap:.5rem;font-size:1rem;color:#E3E9F5;transition:.2s}
+.nav button:hover{background:rgba(212,175,55,.2);color:#fff}
+.nav button:disabled{opacity:.3;pointer-events:none}
+.nav svg{width:1.3rem;height:1.3rem;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.nav .cnt{font-family:var(--fh);font-weight:700;font-size:1.1rem;padding:0 1rem;color:var(--gold2);direction:ltr;min-width:5.6rem;text-align:center}
+.nav .sep{width:1px;height:1.6rem;background:rgba(255,255,255,.15);margin:0 .3rem}
+.idx{position:fixed;inset:0;z-index:80;display:none;place-items:center;background:rgba(5,8,14,.88);backdrop-filter:blur(14px)}
+.idx.open{display:grid}
+.idx-box{width:min(1200px,92vw);max-height:90vh;overflow:auto;padding:2rem;border-radius:26px;background:#0C1426;border:1px solid rgba(212,175,55,.35)}
+.idx-box h3{font-family:var(--fh);font-weight:800;font-size:2rem;margin-bottom:1.4rem;display:flex;justify-content:space-between;align-items:center}
+.idx-box h3 button{font-size:1rem;padding:.4rem 1.1rem;border:1px solid rgba(255,255,255,.2);border-radius:99px;font-family:var(--fb);font-weight:500}
+.idx-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(19rem,1fr));gap:1rem}
+.idx-item{text-align:right;padding:1rem 1.3rem;border-radius:18px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.03);display:flex;gap:1rem;align-items:center;transition:.2s}
+.idx-item:hover,.idx-item.cur{border-color:var(--gold);background:rgba(212,175,55,.12)}
+.idx-item .n{font-family:var(--fh);font-weight:900;font-size:1.8rem;color:var(--gold2);min-width:2.6rem;direction:ltr}
+.idx-item .t{font-family:var(--fh);font-weight:700;font-size:1.1rem;line-height:1.5}
+
+/* ---------- 1 cover ---------- */
+.cover .hero{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:left center;z-index:0}
+.cover .shade{position:absolute;inset:0;z-index:1;background:linear-gradient(270deg,#070B14 0%,rgba(7,11,20,.85) 45%,rgba(7,11,20,.2) 100%)}
+.cover .shade2{position:absolute;inset:0;z-index:1;background:linear-gradient(0deg,rgba(7,11,20,.7),transparent 35%)}
+.cover .inner{justify-content:space-between;align-items:flex-start;padding-top:3.4rem;padding-bottom:6rem}
+.logo{display:inline-flex;background:#fff;padding:10px 18px;border-radius:12px;box-shadow:0 12px 40px -10px rgba(0,0,0,.7)}
+.logo img{height:5.4rem;width:auto;max-width:24rem;object-fit:contain}
+.cv-main{display:flex;flex-direction:column;gap:1.4rem;max-width:41rem}
+.cover h1{font-family:var(--fh);font-weight:900;font-size:4rem;line-height:1.35;color:#fff}
+.cover h1 b{color:var(--gold2);font-weight:900}
+.cv-sub{font-family:var(--fh);font-weight:700;font-size:1.9rem;line-height:1.4;color:var(--gold2)}
+.cv-slogan{font-size:1.35rem;line-height:1.85;color:#E8EDF8;padding-right:1.2rem;border-right:4px solid var(--gold)}
+.badges{display:flex;flex-wrap:wrap;gap:.9rem}
+.badge{display:inline-flex;align-items:center;gap:.7rem;padding:.7rem 1.3rem;border-radius:99px;font-size:1.1rem;font-weight:500;background:rgba(16,26,46,.75);border:1px solid rgba(212,175,55,.45);backdrop-filter:blur(8px)}
+.badge svg{width:1.4rem;height:1.4rem;color:var(--gold2)}
+.badge b{font-family:var(--fh);font-weight:800;color:var(--gold2)}
+
+/* ---------- 2 summary ---------- */
+.g2{display:grid;grid-template-columns:1.15fr .85fr;gap:3rem;flex:1;min-height:0}
+.g2>.col{display:flex;flex-direction:column;gap:1.5rem;justify-content:center;min-height:0}
+.quote{padding:1.5rem 1.8rem;border-radius:22px;border:1px solid rgba(212,175,55,.6);background:linear-gradient(135deg,rgba(212,175,55,.2),rgba(16,26,46,.8))}
+.quote q{display:block;font-family:var(--fh);font-weight:700;font-size:1.45rem;line-height:1.8;color:#fff;quotes:none}
+.quote q em{font-style:normal;color:var(--gold2)}
+.counters{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem}
+.counter{text-align:center;padding:1.1rem .5rem;border-radius:20px;background:var(--card);border:1px solid var(--line)}
+.counter b{display:block;font-family:var(--fh);font-weight:900;font-size:3.6rem;line-height:1.1;color:var(--gold2)}
+.counter span{font-size:1.15rem;color:var(--mut)}
+.pills{display:grid;grid-template-columns:1fr 1fr;gap:.9rem}
+.pill{display:flex;align-items:center;gap:.9rem;padding:.8rem 1.1rem;border-radius:18px;background:var(--card);border:1px solid var(--line);font-size:1.05rem;line-height:1.5}
+.pill small{display:block;font-size:1rem;color:var(--gold2);font-weight:700}
+.g2 .photo{flex:1}
+
+/* ---------- 3 vision ---------- */
+.g3top{display:grid;grid-template-columns:1fr 1fr;gap:1.8rem}
+.g3top .card{display:flex;gap:1.5rem;align-items:flex-start;padding:1.7rem 2rem}
+.g3top h3{font-size:1.7rem;margin-bottom:.4rem;color:var(--gold2)}
+.objs{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;flex:1;min-height:0}
+.obj{display:flex;gap:1.2rem;align-items:center;padding:1.2rem 1.5rem;transition:.3s}
+.obj:hover{border-color:rgba(212,175,55,.6);transform:translateY(-4px)}
+.obj h3{font-size:1.4rem;color:#fff;margin-bottom:.2rem}
+.obj p{font-size:1.05rem;line-height:1.6;color:var(--mut)}
+
+/* ---------- 4 treatment ---------- */
+.g4{display:grid;grid-template-columns:1.2fr .8fr;gap:2.6rem;flex:1;min-height:0}
+.threads{display:grid;grid-template-columns:1fr 5rem 12.5rem;align-items:stretch;min-height:0}
+.th-cards{display:flex;flex-direction:column}
+.th-row{flex:1;display:flex;align-items:center;padding:.5rem 0}
+.th{width:100%;display:flex;gap:1.1rem;align-items:center;padding:1.1rem 1.4rem;border-radius:20px;background:var(--card);border:1px solid var(--line);transition:.3s;cursor:default}
+.th h3{font-family:var(--fh);font-weight:700;font-size:1.35rem;line-height:1.4}
+.th p{font-size:1.05rem;line-height:1.6;color:var(--mut)}
+.th:hover,.th.on{border-color:var(--c);background:linear-gradient(135deg,rgba(255,255,255,.07),var(--card))}
+.th-lines{width:100%;height:100%}
+.th-lines path{fill:none;stroke-width:2.5;stroke-linecap:round;vector-effect:non-scaling-stroke;stroke-dasharray:7 9;animation:flow 1.6s linear infinite;opacity:.55;transition:opacity .3s}
+.th-lines path.on{opacity:1}
+@keyframes flow{to{stroke-dashoffset:-32}}
+.th-core{align-self:center;aspect-ratio:1;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:.4rem;padding:1rem;background:radial-gradient(circle,rgba(212,175,55,.35),rgba(16,26,46,.9) 72%);border:2px solid var(--gold);box-shadow:0 0 70px -10px rgba(212,175,55,.55)}
+.th-core h3{font-family:var(--fh);font-weight:800;font-size:1.3rem;line-height:1.45;color:#fff}
+.th-core .ib{background:rgba(7,11,20,.5)}
+.g4 .side{display:flex;flex-direction:column;gap:1.5rem;min-height:0}
+.g4 .side .card{flex:1;display:flex;flex-direction:column;justify-content:center;gap:1rem}
+.g4 .side h3{display:flex;align-items:center;gap:.9rem;font-size:1.45rem;color:var(--gold2)}
+.items{display:flex;flex-direction:column;gap:.8rem}
+.item{display:flex;align-items:center;gap:.9rem;font-size:1.1rem;line-height:1.5;color:#EAF0FA}
+.item svg{flex:none;width:1.5rem;height:1.5rem;color:var(--gold2)}
+
+/* ---------- 5 season ---------- */
+.ban{position:relative;height:13rem;border-radius:26px;overflow:hidden;flex:none;border:1px solid rgba(212,175,55,.3)}
+.ban img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 40%}
+.ban::after{content:"";position:absolute;inset:0;background:linear-gradient(270deg,rgba(7,11,20,.96),rgba(7,11,20,.7) 45%,rgba(7,11,20,.25))}
+.ban .cap{position:absolute;z-index:2;right:2.4rem;top:50%;transform:translateY(-50%)}
+.ban h2{font-family:var(--fh);font-weight:800;font-size:2.5rem;line-height:1.35;color:#fff}
+.ban p{font-size:1.15rem;color:var(--gold2);font-weight:500}
+.tabs{display:grid;grid-template-columns:repeat(7,1fr);gap:.9rem;flex:none}
+.tab{display:flex;flex-direction:column;align-items:center;gap:.5rem;padding:1rem .5rem;border-radius:20px;background:var(--card);border:1px solid var(--line);transition:.25s;text-align:center;cursor:pointer}
+.tab:hover{border-color:rgba(212,175,55,.6)}
+.tab.on{border-color:var(--gold);background:linear-gradient(160deg,rgba(212,175,55,.28),rgba(16,26,46,.85));box-shadow:0 18px 40px -18px rgba(212,175,55,.6)}
+.tab span{font-family:var(--fh);font-weight:700;font-size:1.1rem;line-height:1.4}
+.eps{display:grid;grid-template-columns:1fr 1fr;gap:1.6rem;flex:1;min-height:0}
+.eps.swap{animation:swap .5s ease}
+@keyframes swap{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.ep{padding:1.4rem 1.7rem;display:flex;flex-direction:column;gap:1rem}
+.ep-h{display:flex;align-items:center;gap:1.1rem}
+.ep-h .n{flex:none;width:3.6rem;height:3.6rem;border-radius:50%;display:grid;place-items:center;font-family:var(--fh);font-weight:900;font-size:1.6rem;color:var(--mid);background:var(--gold)}
+.ep-h h3{font-size:1.65rem;line-height:1.3}
+.ep-h small{display:block;font-size:1.05rem;color:var(--gold2);font-weight:500}
+.pt{display:flex;gap:1rem;align-items:flex-start}
+.pt b{display:block;font-family:var(--fh);font-weight:700;font-size:1.05rem;color:var(--gold2);line-height:1.5}
+.pt span{font-size:1.1rem;line-height:1.65;color:#EAF0FA}
+.pt.red b{color:var(--bad)}
+
+/* ---------- 6 clock ---------- */
+.g6{display:grid;grid-template-columns:.9fr 1.1fr;gap:3rem;flex:1;min-height:0;align-items:center}
+.dcol{display:flex;flex-direction:column;gap:1.8rem;align-items:center;min-height:0}
+.donut{position:relative;width:min(24rem,38vh + 8vw);aspect-ratio:1}
+.donut svg{width:100%;height:100%}
+.seg{fill:none;stroke-width:38;cursor:pointer;transition:stroke-dasharray 1.1s cubic-bezier(.7,0,.2,1),stroke-width .25s,opacity .25s}
+.donut.sel .seg:not(.on){opacity:.4}
+.seg.on{stroke-width:48}
+.dc{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;pointer-events:none;padding:22%}
+.dc b{font-family:var(--fh);font-weight:900;font-size:4rem;line-height:1.1;color:#fff}
+.dc i{font-style:normal;font-size:1.1rem;color:var(--mut)}
+.dc h3{font-family:var(--fh);font-weight:700;font-size:1.25rem;line-height:1.4;color:var(--gold2);margin-top:.3rem}
+.macro{width:100%;max-width:40rem;display:flex;flex-direction:column;gap:.9rem}
+.stack{display:flex;height:1.2rem;gap:5px}
+.stack div{border-radius:99px;flex:0 0 0%;transition:flex .9s cubic-bezier(.7,0,.2,1),opacity .25s;cursor:pointer}
+.slide.active .stack div{flex:1}
+.stack.sel div:not(.on){opacity:.35}
+.legend{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+.legend div{font-size:1.05rem;line-height:1.5;color:#EAF0FA;cursor:pointer}
+.legend b{display:block;font-family:var(--fh);font-weight:800;font-size:1.3rem;color:var(--c)}
+.segs{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.sg{display:flex;align-items:center;gap:1rem;padding:1rem 1.2rem;border-radius:20px;background:var(--card);border:1px solid var(--line);cursor:pointer;transition:.25s;position:relative;overflow:hidden}
+.sg::before{content:"";position:absolute;right:0;top:0;bottom:0;width:6px;background:var(--c)}
+.sg:hover,.sg.on{border-color:var(--c);background:linear-gradient(135deg,rgba(255,255,255,.1),var(--card));transform:translateY(-3px)}
+.sg .m{flex:none;min-width:3.4rem;text-align:center;font-family:var(--fh);font-weight:900;font-size:1.8rem;line-height:1.1;color:var(--c)}
+.sg .m small{display:block;font-size:1rem;font-weight:600;color:var(--mut)}
+.sg h4{font-family:var(--fh);font-weight:700;font-size:1.2rem;line-height:1.4}
+.sg p{font-family:var(--fh);font-weight:600;font-size:1rem;color:var(--mut);direction:ltr;text-align:right}
+
+/* ---------- 7 governance ---------- */
+.g7{display:grid;grid-template-columns:.9fr 1.3fr;gap:2.4rem;flex:1;min-height:0}
+.g7 .rc{display:flex;flex-direction:column;gap:1.4rem;min-height:0}
+.g7 .photo{height:16rem;flex:none}
+.rules{display:flex;flex-direction:column;gap:.7rem}
+.rule{display:flex;align-items:center;gap:1rem;font-size:1.15rem;font-weight:500;line-height:1.5;padding:.55rem 1rem;border-radius:16px;background:var(--card);border:1px solid var(--line)}
+.rule .ib{width:2.6rem;height:2.6rem}
+.mx{display:flex;flex-direction:column;gap:.75rem;min-height:0}
+.mx-h{display:grid;grid-template-columns:10rem 1fr 1fr;gap:.8rem;font-family:var(--fh);font-weight:700;font-size:1.1rem}
+.mx-h div{padding:.55rem 1rem;border-radius:14px;display:flex;align-items:center;gap:.6rem}
+.mx-h .g{background:rgba(52,211,153,.14);color:var(--ok);border:1px solid rgba(52,211,153,.4)}
+.mx-h .r{background:rgba(248,113,113,.13);color:var(--bad);border:1px solid rgba(248,113,113,.4)}
+.mx-h svg{width:1.3rem;height:1.3rem}
+.mx-r{display:grid;grid-template-columns:10rem 1fr 1fr;gap:.8rem;flex:1;min-height:0}
+.mx-r>div{border-radius:16px;padding:.5rem 1rem;display:flex;flex-wrap:wrap;gap:.5rem;align-items:center}
+.mx-r .b{background:var(--card);border:1px solid var(--line);font-family:var(--fh);font-weight:700;font-size:1.15rem;line-height:1.35}
+.mx-r .g{background:rgba(52,211,153,.07);border:1px solid rgba(52,211,153,.25)}
+.mx-r .r{background:rgba(248,113,113,.07);border:1px solid rgba(248,113,113,.25)}
+.bd{display:inline-flex;align-items:center;gap:.45rem;font-size:1rem;line-height:1.35;padding:.3rem .85rem;border-radius:99px;font-weight:500}
+.bd.g{background:rgba(52,211,153,.18);color:#BFF5DF;border:1px solid rgba(52,211,153,.4)}
+.bd.r{background:rgba(248,113,113,.17);color:#FFD3D3;border:1px solid rgba(248,113,113,.4)}
+.bd svg{width:1.05rem;height:1.05rem;flex:none}
+
+/* ---------- 8 production ---------- */
+.tl{position:relative;flex:none}
+.tl-line{position:absolute;top:2rem;right:7%;left:7%;height:4px;width:86%}
+.tl-line svg{width:100%;height:4px}
+.tl-steps{position:relative;display:grid;grid-template-columns:repeat(7,1fr);gap:.9rem}
+.st{display:flex;flex-direction:column;align-items:center;text-align:center;gap:.6rem}
+.st .dot{width:4rem;height:4rem;border-radius:50%;display:grid;place-items:center;font-family:var(--fh);font-weight:900;font-size:1.6rem;color:var(--mid);background:var(--gold);box-shadow:0 0 0 8px var(--mid),0 0 30px rgba(212,175,55,.5);position:relative;z-index:1}
+.st h3{font-family:var(--fh);font-weight:700;font-size:1.25rem;line-height:1.4}
+.st p{font-size:1.05rem;line-height:1.6;color:var(--mut);padding:0 .2rem}
+.g8{display:grid;grid-template-columns:.7fr 1.9fr;gap:1.8rem;flex:1;min-height:0}
+.g8 .photo{min-height:0}
+.crew{display:grid;grid-template-columns:repeat(5,1fr);grid-template-rows:1fr 1fr;gap:1rem}
+.cr{display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:.5rem;padding:1rem 1.1rem;border-radius:20px;background:var(--card);border:1px solid var(--line);transition:.25s}
+.cr:hover{border-color:rgba(59,130,246,.7);transform:translateY(-3px)}
+.cr h4{font-family:var(--fh);font-weight:700;font-size:1.1rem;line-height:1.4}
+.cr p{font-size:1rem;line-height:1.5;color:var(--mut)}
+
+/* ---------- 9 dashboard ---------- */
+.g9{display:grid;grid-template-columns:.95fr 1.05fr 1.2fr;gap:1.8rem;flex:1;min-height:0}
+.c9{display:flex;flex-direction:column;gap:1rem;min-height:0}
+.c9>h3{display:flex;align-items:center;gap:1rem;font-family:var(--fh);font-weight:800;font-size:1.5rem;color:#fff;flex:none}
+.c9 .list{display:flex;flex-direction:column;gap:.9rem;flex:1;min-height:0}
+.dl{flex:1;display:flex;align-items:center;gap:1rem;padding:.7rem 1.2rem;border-radius:20px;background:var(--card);border:1px solid var(--line);font-size:1.15rem;font-weight:500;line-height:1.5;transition:.25s}
+.dl:hover{border-color:rgba(212,175,55,.6);transform:translateX(-4px)}
+.kp{flex:1;display:flex;flex-direction:column;justify-content:center;gap:.6rem;padding:.7rem 1.2rem;border-radius:20px;background:var(--card);border:1px solid var(--line)}
+.kp .t{display:flex;align-items:center;gap:.8rem;font-size:1.15rem;font-weight:500}
+.kp .t svg{width:1.5rem;height:1.5rem;color:var(--blue)}
+.kp .bar{height:.7rem;border-radius:99px;background:rgba(255,255,255,.1);overflow:hidden}
+.kp .bar i{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(270deg,var(--gold),var(--blue));transition:width 1.4s cubic-bezier(.2,.7,.2,1) calc(var(--i)*140ms + .7s)}
+.slide.active .kp .bar i{width:100%}
+.rk{flex:1;display:flex;flex-direction:column;gap:.35rem;justify-content:center}
+.rk .a,.rk .b{display:flex;align-items:center;gap:.8rem;padding:.4rem 1rem;border-radius:16px;font-size:1.1rem;line-height:1.45}
+.rk .a{background:rgba(248,113,113,.12);border:1px solid rgba(248,113,113,.4);color:#FFD6D6;font-weight:700}
+.rk .b{background:rgba(52,211,153,.1);border:1px solid rgba(52,211,153,.4);color:#D1FAE9}
+.rk svg{flex:none;width:1.4rem;height:1.4rem}
+.rk .a svg{color:var(--bad)}.rk .b svg{color:var(--ok)}
+
+/* ---------- 10 final ---------- */
+.road{display:grid;grid-template-columns:1fr 3rem 1fr 3rem 1fr;gap:1rem;align-items:stretch;flex:none}
+.rs{display:flex;gap:1.2rem;align-items:center;padding:1.5rem 1.7rem;border-radius:24px;background:var(--card);border:1px solid var(--line)}
+.rs.pilot{border-color:var(--gold);background:linear-gradient(135deg,rgba(212,175,55,.22),rgba(16,26,46,.85))}
+.rs .n{font-family:var(--fh);font-weight:900;font-size:3.2rem;line-height:1;color:var(--gold2);flex:none}
+.rs h3{font-family:var(--fh);font-weight:700;font-size:1.4rem;line-height:1.45}
+.rs p{font-size:1.05rem;line-height:1.6;color:var(--mut)}
+.arw{display:grid;place-items:center;color:var(--gold2)}
+.arw svg{width:2.4rem;height:2.4rem;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.refs{display:flex;align-items:center;gap:1rem;flex-wrap:wrap;flex:none}
+.refs>span{font-family:var(--fh);font-weight:700;font-size:1.15rem;color:var(--gold2)}
+.ref{display:inline-flex;align-items:center;gap:.7rem;padding:.65rem 1.2rem;border-radius:99px;background:rgba(59,130,246,.15);border:1px solid rgba(59,130,246,.5);font-size:1.05rem;font-weight:500;transition:.2s}
+.ref:hover{background:rgba(59,130,246,.3);transform:translateY(-2px)}
+.ref svg{width:1.3rem;height:1.3rem;color:#8DB8FF}
+.contact{flex:1;min-height:0;display:grid;grid-template-columns:auto 1fr;gap:3.4rem;align-items:center;padding:1.8rem 2.4rem;border-radius:28px;border:1px solid rgba(212,175,55,.55);background:linear-gradient(120deg,rgba(212,175,55,.16),rgba(16,26,46,.9));box-shadow:0 30px 80px -40px rgba(212,175,55,.5)}
+.contact .who{display:flex;flex-direction:column;gap:1rem;align-items:flex-start}
+.contact .logo img{height:8rem}
+.contact h3{font-family:var(--fh);font-weight:800;font-size:1.55rem;line-height:1.5;max-width:20rem}
+.cg{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem 2rem}
+.ci{display:flex;align-items:center;gap:1rem;font-size:1.1rem;line-height:1.6}
+.ci small{display:block;font-size:1rem;color:var(--gold2);font-weight:700}
+.ci .v{display:block;direction:ltr;unicode-bidi:plaintext;text-align:right;font-family:var(--fh);font-weight:600;font-size:1.25rem}
+.ci a:hover{color:var(--gold2)}
+.ci.w{grid-column:1/-1}
+
+[data-ic]>svg{width:100%;height:100%}
+
+/* tuning */
+.road{flex:none;height:min(25rem,30vh)}.road>.arw{height:auto}
+.road h3,.road .st h3{font-size:1.7rem}.road p{font-size:1.25rem}
+
+.obj h3{font-size:1.8rem}.obj p{font-size:1.3rem}.obj .ib{width:4rem;height:4rem}
+.g3top p{font-size:1.4rem}
+
+.g4 .side h3{font-size:1.6rem}.item{font-size:1.25rem}.item svg{width:1.7rem;height:1.7rem}
+.th h3{font-size:1.5rem}.th p{font-size:1.15rem}
+.th-core{width:13.5rem}.th-core h3{font-size:1.45rem}
+.ep{justify-content:space-evenly;padding:1.8rem 2rem}
+.ep-h h3{font-size:1.9rem}.ep-h small{font-size:1.15rem}
+.pt b{font-size:1.15rem}.pt span{font-size:1.3rem;line-height:1.7}
+.ep .ib.sm{width:3rem;height:3rem}
+.donut{width:min(29rem,48vh + 4vw)}
+.sg h4{font-size:1.3rem}.sg .m{font-size:2rem}
+.st h3{font-size:1.4rem}.st p{font-size:1.15rem}
+.cr{gap:.7rem;padding:1.2rem 1.3rem}.cr h4{font-size:1.25rem}.cr p{font-size:1.1rem}
+.cr .ib{width:3.2rem;height:3.2rem}
+.contact{padding:min(2.4rem,2.6vh) 2.6rem;flex:none}
+.rs{padding:1.6rem 2rem}.rs .n{font-size:4.2rem}.rs h3{font-size:1.7rem}.rs p{font-size:1.2rem}
+.refs{padding:.2rem 0}.ref{font-size:1.1rem;padding:.7rem 1.3rem}
+.g2 .col .txt{font-size:1.35rem}
+.dl{font-size:1.25rem}.kp .t{font-size:1.25rem}.rk .a,.rk .b{font-size:1.15rem}
+.g3top p{font-size:1.2rem}.obj h3{font-size:1.5rem}.obj p{font-size:1.15rem}
+
+
+@media (max-width:1000px){
+  html{font-size:14px}
+  .inner{padding:2.4rem 1.4rem 6rem}
+  .g2,.g3top,.g4,.g6,.g7,.g8,.g9,.eps,.contact{grid-template-columns:1fr}
+  .objs,.pills,.segs{grid-template-columns:1fr}
+  .tabs{grid-template-columns:repeat(4,1fr)}
+  .tl-steps{grid-template-columns:repeat(2,1fr)}.tl-line{display:none}
+  .crew{grid-template-columns:repeat(2,1fr);grid-template-rows:auto}
+  .road{grid-template-columns:1fr}.arw{display:none}
+  .threads{grid-template-columns:1fr}.th-lines,.th-core{display:none}
+  .cover h1{font-size:3rem}.cv-main{max-width:100%}
+  .mx-h{display:none}.mx-r{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:reduce){.th-lines path{animation:none}.rv{opacity:1;transform:none;transition:none}.slide{transition:none}}
+</style>
+</head>
+<body>
+
+<div class="prog" id="prog"></div>
+<main id="deck">
+
+<!-- 1 -->
+<section class="slide cover active" id="s1" data-title="الغلاف">
+  <img class="hero" src="hero.png" alt="" draggable="false">
+  <div class="shade"></div><div class="shade2"></div>
+  <div class="inner">
+    <div class="rv"><span class="logo"><img src="logo.png" alt="شركة ثلاثون لقطة للإنتاج والتوزيع الفني"></span></div>
+    <div class="cv-main">
+      <h1 class="rv">على أهبة <b>الاستعداد</b></h1>
+      <p class="cv-sub rv">وثائقي أمني ميداني من قلب العمل</p>
+      <p class="cv-slogan rv">«الأمن يبدأ بالجاهزية.. وخلف كل مهمة فريق يحمي الحياة»</p>
+      <div class="badges rv">
+        <span class="badge"><span data-ic="film" style="width:1.4rem;height:1.4rem"></span><b>14</b> حلقة تلفزيونية</span>
+        <span class="badge"><span data-ic="clock" style="width:1.4rem;height:1.4rem"></span><b>60</b> دقيقة للحلقة</span>
+        <span class="badge"><span data-ic="shield" style="width:1.4rem;height:1.4rem"></span><b>7</b> قطاعات أمنية</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 2 -->
+<section class="slide" id="s2" data-title="الملخص التنفيذي وهوية العمل">
+  <div class="bg"></div>
+  <div class="inner">
+    <header class="sh rv"><h2>الملخص التنفيذي وهوية العمل</h2><span class="no">02</span></header>
+    <div class="g2">
+      <div class="col">
+        <p class="txt rv" style="font-size:1.25rem">وثائقي أردني يرافق الفرق الأمنية في بيئات عملها الحقيقية. قصص إنسانية وتدريبات معتمدة، وتقنيات تُعرض بأمان.</p>
+        <div class="quote rv"><q>«معايشة حقيقية، لا استعراض مصطنع — <em>نُبرز الكفاءة عبر التدريب والعمل الجماعي دون كشف أي إجراءات حساسة</em>»</q></div>
+        <div class="counters rv">
+          <div class="counter"><b data-count="14">0</b><span>حلقة</span></div>
+          <div class="counter"><b data-count="60">0</b><span>دقيقة</span></div>
+          <div class="counter"><b data-count="7">0</b><span>فروع</span></div>
+        </div>
+        <div class="pills rv" id="specs"></div>
+      </div>
+      <div class="col"><div class="photo rv"><img src="hero.png" alt="معايشة ميدانية" draggable="false"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 3 -->
+<section class="slide" id="s3" data-title="الرؤية والأهداف الاستراتيجية">
+  <div class="bg"></div>
+  <div class="inner">
+    <header class="sh rv"><h2>الرؤية والأهداف الاستراتيجية</h2><span class="no">03</span></header>
+    <div class="g3top">
+      <div class="card gold rv"><span class="ib lg" data-ic="bulb"></span><div><h3>فكرة البرنامج</h3><p>ننقل المشاهد من سؤال «ما هي المهمة؟» إلى معايشة التدريب والتعاون واتخاذ القرار تحت الضغط.</p></div></div>
+      <div class="card blue rv"><span class="ib lg blue" data-ic="megaphone"></span><div><h3 style="color:#8DB8FF">رسالة العمل</h3><p>تقديم المنظومة الأمنية الأردنية بصورة مهنية وإنسانية تعزز الثقة والوعي المجتمعي.</p></div></div>
+    </div>
+    <div class="objs" id="objs"></div>
+  </div>
+</section>
+
+<!-- 4 -->
+<section class="slide" id="s4" data-title="المعالجة الإبداعية والهوية البصرية">
+  <div class="bg"></div>
+  <div class="inner">
+    <header class="sh rv"><h2>المعالجة الإبداعية والهوية البصرية</h2><span class="no">04</span></header>
+    <div class="g4">
+      <div class="threads rv">
+        <div class="th-cards" id="ths"></div>
+        <svg class="th-lines" id="thl" viewBox="0 0 100 300" preserveAspectRatio="none" aria-hidden="true"></svg>
+        <div class="th-core"><span class="ib" data-ic="eye"></span><h3>المعايشة الميدانية</h3></div>
+      </div>
+      <div class="side">
+        <div class="card rv"><h3><span class="ib sm" data-ic="mic"></span>دور المقدم</h3><div class="items" id="host"></div></div>
+        <div class="card rv"><h3><span class="ib sm" data-ic="camera"></span>الأسلوب البصري والصوتي</h3><div class="items" id="av"></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 5 -->
+<section class="slide" id="s5" data-title="خارطة الموسم: الفروع السبعة و14 حلقة">
+  <div class="bg"></div>
+  <div class="inner">
+    <div class="ban rv"><img src="branches.png" alt="" draggable="false"><div class="cap"><h2>خارطة الموسم: 7 فروع و14 حلقة</h2><p>اختر الفرع لتستعرض حلقتيه</p></div></div>
+    <div class="tabs rv" id="tabs"></div>
+    <div class="eps rv" id="eps"></div>
+  </div>
+</section>
+
+<!-- 6 -->
+<section class="slide" id="s6" data-title="إيقاع الساعة التلفزيونية">
+  <div class="bg"></div>
+  <div class="inner">
+    <header class="sh rv"><h2>إيقاع الساعة التلفزيونية — 60 دقيقة</h2><span class="no">06</span></header>
+    <div class="g6">
+      <div class="dcol rv">
+        <div class="donut" id="donut">
+          <svg viewBox="0 0 320 320" aria-hidden="true"><g id="segsvg" transform="rotate(-90 160 160)"></g></svg>
+          <div class="dc"><b id="dcB">3</b><i>دقيقة</i><h3 id="dcN"></h3></div>
+        </div>
+        <div class="macro">
+          <div class="stack" id="stack"></div>
+          <div class="legend" id="legend"></div>
+        </div>
+      </div>
+      <div class="segs rv" id="segs"></div>
+    </div>
+  </div>
+</section>
+
+<!-- 7 -->
+<section class="slide" id="s7" data-title="الحوكمة الأمنية ومصفوفة الحماية">
+  <div class="bg"></div>
+  <div class="inner">
+    <header class="sh rv"><h2>الحوكمة الأمنية ومصفوفة الحماية</h2><span class="no">07</span></header>
+    <div class="g7">
+      <div class="rc rv">
+        <div class="photo"><img src="governance.png" alt="مراجعة أمنية" draggable="false" style="object-position:center 30%"></div>
+        <div class="rules" id="rules"></div>
+      </div>
+      <div class="mx rv" id="mx"></div>
+    </div>
+  </div>
+</section>
+
+<!-- 8 -->
+<section class="slide" id="s8" data-title="مراحل الإنتاج وفريق العمل">
+  <div class="bg"></div>
+  <div class="inner">
+    <header class="sh rv"><h2>مراحل الإنتاج وفريق العمل</h2><span class="no">08</span></header>
+    <div class="tl rv"><div class="tl-line"><svg viewBox="0 0 100 4" preserveAspectRatio="none" aria-hidden="true"><line x1="0" y1="2" x2="100" y2="2" stroke="#D4AF37" stroke-width="3" stroke-dasharray="8 8" stroke-opacity=".6" vector-effect="non-scaling-stroke"/></svg></div><div class="tl-steps" id="steps"></div></div>
+    <div class="g8 rv">
+      <div class="photo"><img src="suite.png" alt="استوديو المونتاج" draggable="false"></div>
+      <div class="crew" id="crew"></div>
+    </div>
+  </div>
+</section>
+
+<!-- 9 -->
+<section class="slide" id="s9" data-title="المخرجات ومؤشرات النجاح والمخاطر">
+  <div class="bg"></div>
+  <div class="inner">
+    <header class="sh rv"><h2>المخرجات ومؤشرات النجاح وإدارة المخاطر</h2><span class="no">09</span></header>
+    <div class="g9">
+      <div class="c9 rv"><h3><span class="ib sm" data-ic="rocket"></span>حزمة المخرجات</h3><div class="list" id="dels"></div></div>
+      <div class="c9 rv"><h3><span class="ib sm blue" data-ic="chart"></span>مؤشرات النجاح</h3><div class="list" id="kpis"></div></div>
+      <div class="c9 rv"><h3><span class="ib sm bad" data-ic="alert"></span>إدارة المخاطر</h3><div class="list" id="rks"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 10 -->
+<section class="slide" id="s10" data-title="التوصية النهائية وبيانات التواصل">
+  <div class="bg"></div>
+  <div class="inner">
+    <header class="sh rv"><h2>خارطة الانطلاق وبيانات التواصل</h2><span class="no">10</span></header>
+    <div class="road rv">
+      <div class="rs"><span class="n">1</span><div><h3>اجتماعات التنسيق</h3><p>تحديد الجهات والنطاق.</p></div></div>
+      <div class="arw"><span data-ic="arrow" style="width:2.4rem;height:2.4rem"></span></div>
+      <div class="rs pilot"><span class="n">2</span><div><h3>حلقة تجريبية (Pilot)</h3><p>إنتاج واعتماد حلقة من فرع آمن.</p></div></div>
+      <div class="arw"><span data-ic="arrow" style="width:2.4rem;height:2.4rem"></span></div>
+      <div class="rs"><span class="n">3</span><div><h3>تصوير الموسم الكامل</h3><p>14 حلقة × 60 دقيقة.</p></div></div>
+    </div>
+    <div class="refs rv" id="refs"></div>
+    <div class="contact rv">
+      <div class="who"><span class="logo"><img src="logo.png" alt="شركة ثلاثون لقطة للإنتاج والتوزيع الفني"></span><h3>شركة ثلاثون لقطة للإنتاج والتوزيع الفني</h3></div>
+      <div class="cg">
+        <div class="ci"><span class="ib sm" data-ic="mail"></span><div><small>البريد الإلكتروني</small><a class="v" href="mailto:Info@30-media.com">Info@30-media.com</a></div></div>
+        <div class="ci"><span class="ib sm" data-ic="phone"></span><div><small>الهاتف</small><a class="v" href="tel:+962788667720">+962 788 66 77 20</a><a class="v" href="tel:+96264386477">+962 064386477</a></div></div>
+        <div class="ci w"><span class="ib sm" data-ic="pin"></span><div><small>العنوان</small>المملكة الأردنية الهاشمية - عمان، شارع الملكة رانيا العبدالله، عمارة البرج 91، مكتب رقم 502</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<nav class="nav" aria-label="التحكم بالعرض">
+  <button id="next" type="button" aria-label="التالي"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>
+  <span class="cnt" id="cnt">1 / 10</span>
+  <button id="prev" type="button" aria-label="السابق"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>
+  <span class="sep"></span>
+  <button id="idxbtn" type="button"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10"/></svg>الفهرس</button>
+  <button id="fs" type="button" aria-label="ملء الشاشة"><svg viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button>
+</nav>
+<div class="idx" id="idx"><div class="idx-box"><h3><span>فهرس العرض</span><button type="button" id="idxclose">إغلاق</button></h3><div class="idx-grid" id="idxgrid"></div></div></div>
+
+<script>
+const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
+
+/* ---------- icons ---------- */
+const P={
+plane:'<path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 00-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/>',
+road:'<path d="M7 21l2.5-18M17 21L14.5 3M12 5v3M12 11v3M12 17v3"/>',
+anchor:'<circle cx="12" cy="5" r="2"/><path d="M12 7v14M8 11h8M5 14c.6 3.8 3.4 7 7 7s6.4-3.2 7-7M3 15.5L5 14l1.5 2M21 15.5L19 14l-1.5 2"/>',
+cyber:'<rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4M7.5 8.5l2.5 2.5-2.5 2.5M12.5 13h4"/>',
+forensic:'<circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21M8 10.5a2.5 2.5 0 015 0M7.5 12.5c1 1.2 3.5 1.8 5.2.3"/>',
+shield:'<path d="M12 2.5l8 3v6c0 5-3.4 8.5-8 10-4.6-1.5-8-5-8-10v-6l8-3z"/>',
+shieldcheck:'<path d="M12 2.5l8 3v6c0 5-3.4 8.5-8 10-4.6-1.5-8-5-8-10v-6l8-3z"/><path d="M8.5 12l2.5 2.5 4.5-5"/>',
+target:'<circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4"/><path d="M12 1.5v4M12 18.5v4M1.5 12h4M18.5 12h4"/>',
+camera:'<rect x="3" y="6" width="14" height="12" rx="2"/><path d="M17 10.5l4-2.5v8l-4-2.5z"/>',
+mic:'<rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0013 0M12 17.5V21M8.5 21h7"/>',
+film:'<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 4v16M17 4v16M3 9h4M3 15h4M17 9h4M17 15h4"/>',
+clock:'<circle cx="12" cy="12" r="9"/><path d="M12 6.5V12l3.5 2"/>',
+users:'<circle cx="9" cy="8" r="3.2"/><path d="M2.8 20c.5-3.6 3-5.5 6.2-5.5s5.7 1.9 6.2 5.5"/><circle cx="17" cy="9" r="2.5"/><path d="M17.5 14.2c2.3.2 3.9 1.8 4.3 4.3"/>',
+user:'<circle cx="12" cy="8" r="3.8"/><path d="M4.5 21c.6-4.2 3.5-6.5 7.5-6.5s6.9 2.3 7.5 6.5"/>',
+eye:'<path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',
+lock:'<rect x="5" y="10.5" width="14" height="10" rx="2"/><path d="M8 10.5V8a4 4 0 018 0v2.5M12 14.5v2.5"/>',
+shieldlock:'<path d="M12 2.5l8 3v6c0 5-3.4 8.5-8 10-4.6-1.5-8-5-8-10v-6l8-3z"/><rect x="9" y="11" width="6" height="4.5" rx="1"/><path d="M10.2 11V9.8a1.8 1.8 0 013.6 0V11"/>',
+check:'<path d="M4.5 12.5l5 5 10-11"/>',
+alert:'<path d="M12 3.5l9.5 16.5h-19z"/><path d="M12 10v4.5M12 17.4v.2"/>',
+bulb:'<path d="M9 18h6M10 21h4M12 3a6 6 0 00-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0012 3z"/>',
+heart:'<path d="M12 20.5S3.5 15 3.5 8.8A4.6 4.6 0 0112 6.5a4.6 4.6 0 018.5 2.3C20.5 15 12 20.5 12 20.5z"/>',
+book:'<path d="M4 4.5A2 2 0 016 3h13v15H6a2 2 0 00-2 2zM4 20a2 2 0 002 2h13M9 7.5h6"/>',
+scale:'<path d="M12 3v18M7 21h10M5 7h14M5 7l-3 7a3.5 3.5 0 006 0zM19 7l-3 7a3.5 3.5 0 006 0z"/>',
+search:'<circle cx="11" cy="11" r="7"/><path d="M16.5 16.5L21 21"/>',
+archive:'<rect x="3" y="4" width="18" height="4.5" rx="1"/><path d="M5 8.5V20h14V8.5M10 13h4"/>',
+play:'<circle cx="12" cy="12" r="9"/><path d="M10 8.5l5.5 3.5-5.5 3.5z"/>',
+scissors:'<circle cx="6" cy="6.5" r="2.5"/><circle cx="6" cy="17.5" r="2.5"/><path d="M8 8l12 9M8 16L20 7"/>',
+headset:'<path d="M4 14v-2a8 8 0 0116 0v2"/><rect x="3" y="13" width="4" height="6" rx="1.5"/><rect x="17" y="13" width="4" height="6" rx="1.5"/><path d="M19 19c0 1.5-1.5 2.5-4 2.5h-2"/>',
+flag:'<path d="M5 21V3.5M5 4.5h12l-2 4 2 4H5"/>',
+rocket:'<path d="M12 2.5c3.5 2.5 5 6.5 4 11l-2 2.5h-4L8 13.5c-1-4.5.5-8.5 4-11zM9 16l-3 1.5L6.5 14M15 16l3 1.5L17.5 14M12 17.5v4"/><circle cx="12" cy="9" r="1.6"/>',
+chart:'<path d="M3.5 3.5v17h17M7.5 15l4-4.5 3 3 5-6.5"/>',
+layers:'<path d="M12 3l9 5-9 5-9-5zM3 12.5l9 5 9-5M3 16.5l9 5 9-5"/>',
+map:'<path d="M9 4L3 6.5v14L9 18l6 2.5 6-2.5v-14L15 6.5zM9 4v14M15 6.5v14"/>',
+mail:'<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3.5 7l8.5 6.5L20.5 7"/>',
+phone:'<path d="M6.5 3.5h3l1.5 4-2 1.5a11 11 0 006 6l1.5-2 4 1.5v3a2 2 0 01-2 2A16.5 16.5 0 014.5 5.5a2 2 0 012-2z"/>',
+pin:'<path d="M12 21.5s7-6 7-12a7 7 0 00-14 0c0 6 7 12 7 12z"/><circle cx="12" cy="9.5" r="2.5"/>',
+megaphone:'<path d="M3 10v4h3l8 4.5v-13L6 10zM18 9.5a4 4 0 010 5M6 14l1.5 5.5h3L9.5 15.5"/>',
+gear:'<circle cx="12" cy="12" r="3"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M18.7 5.3l-2.1 2.1M7.4 16.6l-2.1 2.1"/>',
+cc:'<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M7 10.5h4M7 14h2M13 14h4M13 10.5h2"/>',
+wave:'<path d="M2 12h2.5l2-6 3 12 3-15 3 12 2-3H22"/>',
+tv:'<rect x="3" y="5" width="18" height="12" rx="2"/><path d="M8 21h8M12 17v4"/>',
+pen:'<path d="M4 20l.8-4.2L16 4.6a2 2 0 012.8 2.8L7.6 19.2zM14.5 6.2l3.3 3.3"/>',
+briefcase:'<rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a1.5 1.5 0 011.5-1.5h3A1.5 1.5 0 0115 5v2M3 13h18"/>',
+link:'<path d="M10 14a4.5 4.5 0 006.4 0l3-3a4.5 4.5 0 00-6.4-6.4l-1 1M14 10a4.5 4.5 0 00-6.4 0l-3 3a4.5 4.5 0 006.4 6.4l1-1"/>',
+sparkle:'<path d="M12 3l2 6 6 2-6 2-2 6-2-6-6-2 6-2z"/>',
+stop:'<circle cx="12" cy="12" r="9"/><path d="M5.6 5.6l12.8 12.8"/>',
+arrow:'<path d="M20 12H5M11 6l-6 6 6 6"/>'
+};
+const svg=n=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${P[n]||P.shield}</svg>`;
+const ib=(n,c='')=>`<span class="ib ${c}">${svg(n)}</span>`;
+const fill=()=>$$('[data-ic]').forEach(e=>{if(!e.querySelector('svg'))e.insertAdjacentHTML('afterbegin',svg(e.dataset.ic))});
+
+/* ---------- content (summarized Arabic) ---------- */
+const SPECS=[['film','النوع','وثائقي أمني ميداني'],['users','الجمهور','العام والشباب والعائلات'],['tv','المنصات','تلفزيون ورقمي ومقاطع'],['camera','الأسلوب','معايشة وقصص أفراد']];
+const OBJS=[['users','تعريف الفروع الأمنية','طبيعة كل فرع وتكامل أدواره بوضوح'],['target','إبراز الجاهزية','التدريب والتخصص والتنسيق بين الجهات المختصة'],['heart','البعد الإنساني','قرار تحت الضغط وخدمة الناس بمهنية'],['gear','دور التقنية','شرح الأدلة والبيانات دون كشف حساس'],['megaphone','ثقافة وقائية','سلامة رقمية وإبلاغ مسؤول ومسؤولية مجتمعية'],['archive','محتوى موثق','مرجع توعوي يبقى بعد انتهاء البث']];
+const THREADS=[['target','خيط المهمة','ما الذي يسعى الفريق لإنجازه؟','#E5B869'],['users','خيط الإنسان','من هم العاملون وكيف يتدربون؟','#3B82F6'],['gear','خيط التقنية والتنسيق','الأدوات والشركاء، بما تجيزه الجهة فقط','#34D399']];
+const HOST=[['mic','صحفي مرافق هادئ يسأل نيابة عن المشاهد'],['user','شخصية محورية لكل حلقة'],['shieldcheck','مرافق أمني رسمي يحدد حدود التصوير']];
+const AV=[['camera','كاميرا قريبة من الإنسان'],['wave','صوت طبيعي للمكان'],['chart','رسوم معلوماتية غير تشغيلية']];
+const BR=[
+ ['المطارات','plane'],['الحدود البرية','road'],['الحدود المائية','anchor'],['الأمن السيبراني','cyber'],['الأمن الجنائي','forensic'],['الأمن العام','shield'],['مكافحة الإرهاب','target']];
+const EP=[
+ ['رحلة آمنة','كيف تتكامل الخدمة والأمن والانضباط في رحلة المسافر؟','لقطات عامة للمبنى وتفاصيل بشرية ورسوم لرحلة المسافر','لا شاشات ولا نقاط فحص حساسة ولا بيانات مسافرين'],
+ ['حين يتغير السيناريو','كيف تستعد الجهات لموقف استثنائي وتحفظ سلامة الأشخاص؟','تمرين من زوايا معتمدة ومقابلة بعد التمرين','لا أزمنة استجابة ولا زوايا مراقبة ولا خطط إخلاء'],
+ ['بوابة البر','كيف تجتمع حماية الحدود وخدمة المسافرين والتنسيق بين الجهات؟','لقطات عامة للمعبر بعد مراجعة أمنية','لا مسارات دوريات ولا مناوبات ولا نقاط مراقبة'],
+ ['اليقظة على امتداد الحدود','كيف يحافظ الفريق على جاهزيته في بيئة ميدانية واسعة؟','مناظر عامة غير محددة وتجهيزات مسموحة','لا إحداثيات ولا مسارات ولا قدرات أجهزة الرصد'],
+ ['بوابة البحر','ما الذي تتطلبه السلامة والانضباط في المجال البحري؟','لقطات بحرية ومينائية عامة ومعدات السلامة','لا خرائط تشغيلية ولا نطاقات مراقبة ولا اتصالات'],
+ ['استجابة في البحر','كيف يحمي الفريق الأرواح في استجابة بحرية؟','لقطات واسعة للتمرين ومقابلة الدروس المستفادة','لا زمن استجابة ولا نقاط انطلاق ولا اتصالات تشغيلية'],
+ ['الجبهة غير المرئية','كيف تُحمى الخدمات الرقمية وما دور الوقاية والاستجابة؟','رسوم رقمية وبيئة محاكاة وأمثلة توعوية','لا عناوين شبكات ولا بيانات دخول ولا ثغرات'],
+ ['ساعة الاختبار الرقمية','كيف تتعامل المؤسسات مع حادث افتراضي وتحفظ استمرار الخدمة؟','شاشات وبيانات تجريبية ورسوم لدورة الاستجابة','لا أنظمة حقيقية ولا أدوات هجومية'],
+ ['الأثر يتحدث','كيف تتحول الآثار إلى أدلة موثقة ضمن إجراءات قانونية؟','مسرح تمثيلي ومختبر ومقابلات علمية','لا ضحايا ولا مشتبهين ولا قضايا حية'],
+ ['من البلاغ إلى الدليل','كيف تتعاون الفرق حتى تتشكل صورة قابلة للفحص قانونياً؟','حالة تدريبية معلنة ومخطط زمني افتراضي','لا أساليب غير منشورة ولا أسماء قضايا ولا بيانات شخصية'],
+ ['في قلب الشارع','كيف يلتقي عمل الشرطة اليومي بحاجات الناس؟','لقطات شارع عامة وحوارات قصيرة','لا أنماط انتشار ولا تحركات فرق ولا بيانات مواطنين'],
+ ['نداء استجابة','كيف تتكامل فرق الاستجابة عند حادث يمس سلامة الناس؟','تدريب مراقب ومعدات إنقاذ ومقابلة بعد السيناريو','لا بروتوكولات غير عامة ولا نقاط تمركز'],
+ ['الوقاية قبل المواجهة','ما دور الوقاية والوعي والتنسيق في حماية المجتمع؟','تدريب عام ومقابلة مخولة ورسوم مفاهيمية','لا مصادر معلومات ولا هويات ولا خرائط تهديد'],
+ ['جاهزية اللحظة الحاسمة','كيف يُختبر التنسيق وسلامة القرار في تمرين شديد الحساسية؟','لقطات منتقاة وموافق عليها ومقابلة الدروس','لا تكتيكات ولا تشكيلات ولا قدرات غير منشورة']
+];
+const SEG=[['افتتاحية مشوقة',0,3,2,'play'],['السياق',3,7,1,'map'],['الإنسان والمهمة',7,15,1,'user'],['المعايشة',15,25,0,'eye'],['اختبار أو سيناريو',25,35,0,'target'],['التقنية والتنسيق',35,43,2,'gear'],['الأثر الإنساني',43,51,1,'heart'],['التحديات والتعلم',51,56,2,'book'],['خلاصة الحلقة',56,59,2,'check'],['الخاتمة',59,60,2,'flag']];
+const GRP=[['المعايشة والسيناريو الميداني','#D4AF37'],['البعد الإنساني والسياق','#3B82F6'],['التقنية والخلاصة','#9FB6D9']];
+const RULES=[['user','مراجع أمني لكل حلقة'],['map','معاينة مسبقة للمواقع'],['eye','حجب الشاشات والمناوبات'],['film','تمييز المحاكاة عن الواقع'],['sparkle','حظر التزييف بالذكاء الاصطناعي'],['scale','حماية الخصوصية وقرينة البراءة']];
+const MX=[
+ ['المطارات','plane',['رحلة المسافر','تنسيق المؤسسات'],['خطوات الفحص','بيانات المسافرين']],
+ ['الحدود البرية','road',['ظروف العمل','الجاهزية والتدريب'],['المواقع الحساسة','الدوريات']],
+ ['الحدود المائية','anchor',['السلامة البحرية','البحث والإنقاذ'],['مسارات الدوريات','الاتصالات']],
+ ['الأمن السيبراني','cyber',['التوعية','الاستجابة التدريبية'],['عناوين الأنظمة','الثغرات']],
+ ['الأمن الجنائي','forensic',['العلم والتوثيق','حقوق الأطراف'],['القضايا الحية','الهويات']],
+ ['الأمن العام','shield',['خدمة الجمهور','الوقاية'],['التمركزات','بيانات المواطنين']],
+ ['مكافحة الإرهاب','target',['الوقاية','حماية المدنيين'],['المعلومات الاستخبارية','خطط العمليات']]];
+const STEPS=[['التطوير','اعتماد الهوية والتواصل الرسمي مع الجهات'],['البحث','دراسة المهام وتحديد الشخصيات'],['المعاينة الأمنية','تحديد المناطق المسموحة والممنوعة'],['التصوير','وفق جدول الجهات مع يوم احتياطي'],['المونتاج','بناء السرد وحجب الحساس'],['المراجعة الأمنية','أمنية وقانونية وواقعية'],['النشر والأرشفة','ترويج ومقاطع وحفظ التصاريح']];
+const CREW=[['briefcase','المنتج التنفيذي','الموافقات والميزانية والمخاطر'],['pen','المحرر الرئيسي','البحث وبناء السرد'],['film','المخرج','الإيقاع البصري ووضوح الواقع'],['mic','المقدم','قيادة المعايشة بأسئلة متوازنة'],['shieldlock','مسؤول الاتصال الأمني','تحديد نطاق التصوير'],['search','مدقق الحقائق','التحقق من الأسماء والأرقام'],['scale','المستشار القانوني','الحقوق والخصوصية'],['camera','مدير التصوير','تصوير آمن وفق الخطة'],['headset','مهندس الصوت والمونتير','تنقيح اللقطات الحساسة'],['archive','المنتج الرقمي والأرشيفي','المقاطع والفهرسة والموافقات']];
+const DELS=[['tv','حلقات تلفزيونية 60 دقيقة'],['play','نسخ رقمية بفصول زمنية'],['film','4–6 مقاطع قصيرة لكل حلقة'],['chart','بطاقات معلوماتية'],['cc','نسخ ميسرة بالتفريغ'],['archive','أرشيف إنتاجي موثق']];
+const KPI=[['eye','وضوح مهمة الفرع'],['user','قصة إنسانية تقود السرد'],['layers','توازن المقابلات والمعايشة'],['shieldlock','صفر تسريب أمني'],['globe','انتشار رقمي مؤثر']];
+const RISK=[['تقييد التصوير الميداني','بدائل بصرية معتمدة وقصص بشرية'],['التحول إلى دعاية مباشرة','حقائق ووقائع قابلة للتحقق'],['ظهور بيانات حساسة عرضاً','مراجع أمني ومراجعة ثانية قبل التسليم'],['الخلط بين المحاكاة والواقع','إعلان واضح داخل العمل'],['تضارب اختصاصات الجهات','تأكيد رسمي مسبق للمسؤوليات']];
+const REFS=[['مديرية الأمن العام','https://www.psd.gov.jo/ar-jo'],['مركز تدريب البحث الجنائي','https://psd.gov.jo/ar-jo/الإدارات-والوحدات/إدارة-البحث-الجنائي/مركز-تدريب-البحث-الجنائي/'],['المركز الوطني للأمن السيبراني NCSC','https://ncsc.jo/Ar/Pages/About_the_Center_AR'],['فريق JoCERT','https://jocert.ncsc.jo/Default/Ar']];
+
+/* ---------- render ---------- */
+function render(){
+  $('#specs').innerHTML=SPECS.map(s=>`<div class="pill">${ib(s[0],'sm')}<div><small>${s[1]}</small>${s[2]}</div></div>`).join('');
+  $('#objs').innerHTML=OBJS.map(o=>`<div class="card obj rv">${ib(o[0],'lg')}<div><h3>${o[1]}</h3><p>${o[2]}</p></div></div>`).join('');
+  $('#ths').innerHTML=THREADS.map((t,i)=>`<div class="th-row"><div class="th" data-k="${i}" style="--c:${t[3]}">${ib(t[0])}<div><h3>${t[1]}</h3><p>${t[2]}</p></div></div></div>`).join('');
+  $('#thl').innerHTML=THREADS.map((t,i)=>{const y=50+i*100;return `<path data-k="${i}" d="M100 ${y} C 55 ${y}, 45 150, 0 150" stroke="${t[3]}"/>`}).join('');
+  $$('.th').forEach(th=>{const on=v=>{th.classList.toggle('on',v);$(`#thl path[data-k="${th.dataset.k}"]`).classList.toggle('on',v)};th.addEventListener('mouseenter',()=>on(true));th.addEventListener('mouseleave',()=>on(false))});
+  $('#host').innerHTML=HOST.map(h=>`<div class="item">${svg(h[0])}<span>${h[1]}</span></div>`).join('');
+  $('#av').innerHTML=AV.map(h=>`<div class="item">${svg(h[0])}<span>${h[1]}</span></div>`).join('');
+  $('#rules').innerHTML=RULES.map(r=>`<div class="rule">${ib(r[0],'sm')}<span>${r[1]}</span></div>`).join('');
+  $('#mx').innerHTML=`<div class="mx-h"><div></div><div class="g">${svg('check')}ما يمنح الحلقة قيمة</div><div class="r">${svg('lock')}ما يجب حمايته</div></div>`+MX.map(r=>`<div class="mx-r"><div class="b">${r[0]}</div><div class="g">${r[2].map(x=>`<span class="bd g">${svg('check')}${x}</span>`).join('')}</div><div class="r">${r[3].map(x=>`<span class="bd r">${svg('shieldlock')}${x}</span>`).join('')}</div></div>`).join('');
+  $('#steps').innerHTML=STEPS.map((s,i)=>`<div class="st"><div class="dot">${i+1}</div><h3>${s[0]}</h3><p>${s[1]}</p></div>`).join('');
+  $('#crew').innerHTML=CREW.map(c=>`<div class="cr">${ib(c[0],'sm blue')}<h4>${c[1]}</h4><p>${c[2]}</p></div>`).join('');
+  $('#dels').innerHTML=DELS.map(d=>`<div class="dl">${ib(d[0],'sm')}<span>${d[1]}</span></div>`).join('');
+  $('#kpis').innerHTML=KPI.map((k,i)=>`<div class="kp" style="--i:${i}"><div class="t">${svg(k[0])}<span>${k[1]}</span></div><div class="bar"><i></i></div></div>`).join('');
+  $('#rks').innerHTML=RISK.map(r=>`<div class="rk"><div class="a">${svg('alert')}<span>${r[0]}</span></div><div class="b">${svg('shieldcheck')}<span>${r[1]}</span></div></div>`).join('');
+  $('#refs').innerHTML='<span>المراجع الرسمية</span>'+REFS.map(r=>`<a class="ref" href="${r[1]}" target="_blank" rel="noopener noreferrer">${svg('link')}${r[0]}</a>`).join('');
+  fill();
+}
+
+/* S5 */
+let br=0;
+function s5(anim){
+  $('#tabs').innerHTML=BR.map((b,i)=>`<button class="tab ${i===br?'on':''}" data-i="${i}" type="button">${ib(b[1],'sm')}<span>${b[0]}</span></button>`).join('');
+  const ang=['الزاوية الأولى: المهمة والإنسان','الزاوية الثانية: سيناريو تدريبي معتمد'];
+  $('#eps').innerHTML=[0,1].map(k=>{const n=br*2+k,e=EP[n];return `<article class="card ep"><div class="ep-h"><span class="n">${n+1}</span><div><h3>${e[0]}</h3><small>${ang[k]}</small></div></div>
+  <div class="pt">${ib('bulb','sm')}<div><b>الفكرة والسؤال المحوري</b><span>${e[1]}</span></div></div>
+  <div class="pt">${ib('camera','sm blue')}<div><b>المعالجة البصرية</b><span>${e[2]}</span></div></div>
+  <div class="pt red">${ib('shieldlock','sm bad')}<div><b>الخطوط الحمراء للتصوير</b><span>${e[3]}</span></div></div></article>`}).join('');
+  if(anim){const p=$('#eps');p.classList.remove('swap');void p.offsetWidth;p.classList.add('swap')}
+}
+$('#tabs')&&document.addEventListener('click',e=>{const t=e.target.closest('.tab');if(t){br=+t.dataset.i;s5(true)}});
+
+/* S6 */
+const S6={cur:0,pin:0,timer:null};
+function s6(){
+  const R=124,C='#segsvg';
+  $(C).innerHTML=SEG.map((s,i)=>`<circle class="seg" data-i="${i}" cx="160" cy="160" r="${R}" pathLength="100" stroke="${GRP[s[3]][1]}" style="stroke-dasharray:0 100;stroke-dashoffset:${-(s[1]/60*100)}"/>`).join('');
+  $('#segs').innerHTML=SEG.map((s,i)=>`<div class="sg" data-i="${i}" style="--c:${GRP[s[3]][1]}"><div class="m">${s[2]-s[1]}<small>د</small></div><div><h4>${s[0]}</h4><p>${pad(s[1])}:00 – ${pad(s[2])}:00</p></div></div>`).join('');
+  $('#stack').innerHTML=GRP.map((g,i)=>`<div data-g="${i}" style="background:${g[1]}"></div>`).join('');
+  $('#legend').innerHTML=GRP.map((g,i)=>`<div data-g="${i}" style="--c:${g[1]}"><b>20 دقيقة</b>${g[0]}</div>`).join('');
+  const on=(i)=>{S6.pin=performance.now()+8000;setSeg(i)};
+  $('#donut').addEventListener('mouseover',e=>{const s=e.target.closest('.seg');if(s)on(+s.dataset.i)});
+  $('#donut').addEventListener('click',e=>{const s=e.target.closest('.seg');if(s)on(+s.dataset.i)});
+  $('#segs').addEventListener('mouseover',e=>{const s=e.target.closest('.sg');if(s)on(+s.dataset.i)});
+  $('#segs').addEventListener('click',e=>{const s=e.target.closest('.sg');if(s)on(+s.dataset.i)});
+  const grp=e=>{const g=e.target.closest('[data-g]');if(g)setGrp(+g.dataset.g)};
+  $('#stack').addEventListener('mouseover',grp);$('.legend').addEventListener('mouseover',grp);
+  setSeg(0);
+}
+const pad=n=>String(n).padStart(2,'0');
+function setSeg(i){
+  S6.cur=i;const s=SEG[i];
+  $('#donut').classList.add('sel');$('#stack').classList.remove('sel');
+  $$('.seg').forEach(x=>x.classList.toggle('on',+x.dataset.i===i));
+  $$('.sg').forEach(x=>x.classList.toggle('on',+x.dataset.i===i));
+  $$('#stack div').forEach(x=>x.classList.toggle('on',+x.dataset.g===s[3]));$('#stack').classList.add('sel');
+  $('#dcB').textContent=s[2]-s[1];$('#dcN').textContent=s[0];$('#dcN').style.color=GRP[s[3]][1];
+}
+function setGrp(g){
+  S6.pin=performance.now()+8000;
+  $$('.seg').forEach(x=>x.classList.toggle('on',SEG[+x.dataset.i][3]===g));
+  $$('.sg').forEach(x=>x.classList.toggle('on',SEG[+x.dataset.i][3]===g));
+  $$('#stack div').forEach(x=>x.classList.toggle('on',+x.dataset.g===g));
+  $('#dcB').textContent=20;$('#dcN').textContent=GRP[g][0];$('#dcN').style.color=GRP[g][1];
+}
+function armS6(){
+  const full=SEG.map(s=>Math.max((s[2]-s[1])/60*100-.7,.5));
+  $$('.seg').forEach((c,i)=>{c.style.strokeDasharray='0 100';setTimeout(()=>{c.style.strokeDasharray=`${full[i]} ${100-full[i]}`},200+i*90)});
+  clearInterval(S6.timer);S6.timer=setInterval(()=>{if(performance.now()<S6.pin)return;setSeg((S6.cur+1)%SEG.length)},3200);
+}
+
+/* ---------- engine ---------- */
+const slides=$$('.slide'),N=slides.length;let cur=0,busy=false;
+function countUp(){$$('[data-count]').forEach(el=>{const to=+el.dataset.count,t0=performance.now();const f=t=>{const p=Math.min(1,(t-t0)/1400);el.textContent=Math.round(to*(1-Math.pow(1-p,3)));if(p<1)requestAnimationFrame(f)};requestAnimationFrame(f)})}
+function go(n,instant){
+  n=Math.max(0,Math.min(N-1,n));if(n===cur&&!instant)return;if(busy&&!instant)return;
+  slides.forEach(s=>s.classList.remove('settled'));
+  slides[cur].classList.remove('active');slides[n].classList.add('active');
+  const i=$('.inner',slides[n]);i&&(i.scrollTop=0);
+  if(!instant){busy=true;setTimeout(()=>busy=false,950)}
+  cur=n;setTimeout(()=>{if(cur===n)slides[n].classList.add('settled')},2400);
+  $('#cnt').textContent=`${n+1} / ${N}`;$('#prog').style.width=((n+1)/N*100)+'%';
+  $('#prev').disabled=n===0;$('#next').disabled=n===N-1;
+  $$('.idx-item').forEach((b,k)=>b.classList.toggle('cur',k===n));
+  try{history.replaceState(null,'','#'+(n+1))}catch(e){}
+  if(n===1)countUp();
+  if(n===5)armS6();else clearInterval(S6.timer);
+}
+const next=()=>go(cur+1),prev=()=>go(cur-1);
+const canScroll=d=>{const i=$('.inner',slides[cur]);if(!i||i.scrollHeight<=i.clientHeight+4)return false;return d>0?i.scrollTop+i.clientHeight<i.scrollHeight-3:i.scrollTop>3};
+function toggleFS(){const d=document,e=d.documentElement;if(!d.fullscreenElement)(e.requestFullscreen||e.webkitRequestFullscreen||(()=>{})).call(e);else(d.exitFullscreen||d.webkitExitFullscreen).call(d)}
+function nav(){
+  $('#next').onclick=next;$('#prev').onclick=prev;$('#fs').onclick=toggleFS;
+  const idx=$('#idx'),close=()=>idx.classList.remove('open');
+  $('#idxgrid').innerHTML=slides.map((s,i)=>`<button class="idx-item" type="button" data-i="${i}"><span class="n">${i+1}</span><span class="t">${s.dataset.title}</span></button>`).join('');
+  $('#idxbtn').onclick=()=>idx.classList.toggle('open');$('#idxclose').onclick=close;
+  idx.addEventListener('click',e=>{if(e.target===idx)close();const b=e.target.closest('.idx-item');if(b){close();go(+b.dataset.i)}});
+  let last=0,lastA=0,lock=0;
+  addEventListener('wheel',e=>{
+    if(idx.classList.contains('open')||e.ctrlKey||Math.abs(e.deltaY)<Math.abs(e.deltaX))return;
+    const dy=e.deltaY;if(!dy)return;const now=performance.now(),a=Math.abs(dy);
+    const fresh=now-last>180||a>lastA*1.8+8;last=now;lastA=a;
+    if(canScroll(dy>0?1:-1))return;e.preventDefault();
+    if(now<lock||!fresh||a<4)return;lock=now+1000;dy>0?next():prev();
+  },{passive:false});
+  addEventListener('keydown',e=>{
+    if(e.key==='Escape'){close();return}
+    const k=e.key;if(k===' '&&/BUTTON|A/.test(e.target.tagName))return;
+    if(['ArrowDown','ArrowLeft',' ','PageDown'].includes(k)){e.preventDefault();next()}
+    else if(['ArrowUp','ArrowRight','PageUp'].includes(k)){e.preventDefault();prev()}
+    else if(k==='Home')go(0);else if(k==='End')go(N-1);else if(k==='f'||k==='F')toggleFS();
+  });
+  const skip=t=>t.closest&&t.closest('button,a,.idx,.seg,.sg,.th,.tab');
+  let t0=null;
+  addEventListener('touchstart',e=>{if(skip(e.target)){t0=null;return}const t=e.touches[0];t0={x:t.clientX,y:t.clientY}},{passive:true});
+  addEventListener('touchend',e=>{if(!t0||idx.classList.contains('open'))return;const t=e.changedTouches[0],dx=t.clientX-t0.x,dy=t.clientY-t0.y;t0=null;
+    if(Math.abs(dy)>Math.abs(dx)&&Math.abs(dy)>60){if(canScroll(dy<0?1:-1))return;dy<0?next():prev()}
+    else if(Math.abs(dx)>70&&Math.abs(dx)>Math.abs(dy)){dx<0?next():prev()}},{passive:true});
+  let m0=null;
+  addEventListener('mousedown',e=>{if(e.button!==0||skip(e.target)||idx.classList.contains('open')){m0=null;return}m0={x:e.clientX,y:e.clientY,st:($('.inner',slides[cur])||{}).scrollTop}});
+  addEventListener('mouseup',e=>{if(!m0)return;const dx=e.clientX-m0.x,dy=e.clientY-m0.y,mv=m0.st!==($('.inner',slides[cur])||{}).scrollTop;m0=null;if(mv)return;
+    if(Math.abs(dy)>Math.abs(dx)&&Math.abs(dy)>80){if(canScroll(dy<0?1:-1))return;dy<0?next():prev()}
+    else if(Math.abs(dx)>90&&Math.abs(dx)>Math.abs(dy)){dx<0?next():prev()}});
+}
+(function boot(){
+  render();s5(false);s6();nav();
+  slides.forEach(s=>$$('.rv',s).forEach((el,i)=>el.style.setProperty('--i',i)));
+  const h=parseInt(location.hash.slice(1),10);cur=0;go(h>=1&&h<=N?h-1:0,true);
+  slides[cur].classList.add('active');
+  setTimeout(()=>slides[cur].classList.add('settled'),2400);
+})();
+</script>
+</body>
+</html>
